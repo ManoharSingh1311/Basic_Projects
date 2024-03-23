@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon Says Game</title>
+    <link rel="icon" href="favicon.ico">
+    <!-- 
+        Author: Manohar Singh(https://github.com/mannu1311/Basic_Projects)
+        Description: Welcome to the "Simon Says Game"! 🎮 Test your memory and reflexes by repeating 
+            a sequence of colors. Perfect for beginners learning JavaScript, this interactive project 
+            reinforces key concepts like event handling and DOM manipulation.
+            Press any key to start. Click the buttons to repeat the sequence. How far can you go? 🌟
+        Date: March 23, 2024 
+    -->
+    <style>
+        body{
+            text-align: center;
+        }
+        .btn{
+            height: 200px;
+            width: 200px;
+            border-radius: 20%;
+            border: 10px solid black;
+            margin: 2.5rem;
+        }
+        .btn-container{
+            display: flex;
+            justify-content: center;
+        }
+        .red{
+            background-color: #d95980;
+        }
+        .green{
+            background-color: rgb(73, 141, 73);
+        }
+        .purple{
+            background-color: #819ff9;
+        }
+        .yellow{
+            background-color: #f99b45;
+        }
+        .flash{
+            background-color: white;
+        }
+        .userFlash{
+            background-color: #1f2024;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simon Says Game</h1>
+    <!-- Rules Section -->
+    <div class="rules-section">
+        <h3>Rules:</h3>
+        <ul>
+            <li type="none"><i>The game will start when any key is pressed.</i></li>
+            <li type="none"><i>Pay attention to the sequence of button flashes.</i></li>
+            <li type="none"><i>Repeat the sequence by clicking on the buttons in the same order.</i></li>
+            <li type="none"><i>Each successful sequence will increase the level.</i></li>
+            <li type="none"><i>If you click the wrong button or the wrong sequence, the game is over.</i></li>
+        </ul>
+    </div>
+    <h2>Press any key to start!</h2>
+    <h3>Highest Score: <span id="highest-score">0</span></h3>
+    
+    <div class="btn-container">
+        <div class="lin1">
+            <div class="btn red" type="button" id="red">1</div>
+            <div class="btn green" type="button" id="green">2</div>
+        </div>
+        <div class="line2">
+            <div class="btn yellow" type="button" id="yellow">3</div>
+            <div class="btn purple" type="button" id="purple">4</div>
+        </div>
+    </div>
+    <script>
+        //1. Keypress->Game start
+        // 2.ButtonFlash + Level 1
+        // 3.ButtonPressByUser->CheckUserSequence==GameSequence if Yes, then level up otherwise Game over
+        let GameSeq=[];
+        let UserSeq=[];
+
+        let btns=["yellow","red","purple","green"];
+        
+        let started=false;
+        let level=0;
+
+        let h2=document.querySelector("h2");
+
+        function levelUp()
+        {
+            UserSeq=[];
+            level++;
+            h2.innerText =`Level ${level}`;            
+            //random button choose
+            let randIndex = Math.floor(Math.random() * 4);
+            let randColor = btns[randIndex];
+            let randBtn = document.querySelector(`.${randColor}`);
+            // console.log(randIndex);
+            // console.log(randColor);
+            // console.log(randBtn);
+            GameSeq.push(randColor);
+            console.log(GameSeq);
+            gameFlash(randBtn);
+        }
+
+        document.addEventListener("keypress",function()
+        {
+            if(started==false)
+            {
+                console.log("Game Started!");
+                started=true;
+                levelUp(); // Move levelUp() here to start the game only once when a key is pressed.
+            }
+        })
+
+        function gameFlash(btn){
+            btn.classList.add("flash");
+            setTimeout(function()
+            {
+                btn.classList.remove("flash"); 
+            },200);
+        }
+
+        function userFlash(btn){
+            btn.classList.add("userFlash");
+            setTimeout(function()
+            {
+                btn.classList.remove("userFlash"); 
+            },150);
+        }
+
+        function checkAns(idx)
+        {
+            // console.log("Current Level: ", level);
+            // let idx = level-1;
+           if(UserSeq[idx]===GameSeq[idx]) 
+           {
+            //Two cases: Either in middle of an we don't have to do anything just have to wait for the next button to press and check the seq
+            //Or we are in the last index  we have to Level up;
+            if(UserSeq.length == GameSeq.length)
+            {
+                setTimeout(levelUp, 1000);
+            }             
+           }
+           else{
+            h2.innerHTML=`Game Over!Your Score was <b>${level} </b> <br>Press any key to start`;
+            document.querySelector("body").style.backgroundColor = "red";
+            setTimeout(function()
+            {
+                document.querySelector("body").style.backgroundColor = "white";
+            },150);
+            reset();
+           }
+        }
+
+        function btnPress()
+        {
+            // console.log(this);
+            let btn = this;
+            userFlash(btn);
+
+            userColor = btn.getAttribute("id");
+            console.log(userColor);
+            UserSeq.push(userColor);
+
+            checkAns(UserSeq.length-1);
+        }
+
+        let allBtns=document.querySelectorAll(".btn");
+        for(btn of allBtns)
+        {
+            btn.addEventListener("click", btnPress);
+        }
+
+        function reset()
+        {
+            started = false;
+            GameSeq=[];
+            UserSeq=[];
+            level=0;
+        }
+       
+    </script>
+</body>
+</html>

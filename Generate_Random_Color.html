@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Random Color</title>
+    <link rel="icon" href="favicon.ico">
+    <!-- 
+        Author: Manohar Singh(https://github.com/mannu1311/Basic_Projects)
+        Description: Welcome to the "Generate Random Color" project! 🎨 Dynamically generate random colors 
+            with a click of a button. Perfect for beginners learning HTML, CSS, and JavaScript.
+            Press the button to instantly create a new color. See it displayed as text and as the background
+            color of a div element. Type in the input field to see your text instantly displayed below.
+        Date: March 23, 2024 
+    -->
+    <style>
+        body{
+            text-align: center;
+        } 
+        div{
+            width: 500px;
+            height: 100px;
+            border: 1px solid black;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Welcome to the "Generate Random Color" project! 🎨 This web application lets you dynamically generate random colors with just a click of a button. It's perfect for beginners learning HTML, CSS, and JavaScript.
+
+            Features:
+            Generate Color Button:
+            Click to instantly create a random RGB color.
+
+            Display New Color:
+            See the generated color displayed as text and as the background color of a div element.
+
+            Text Editor:
+            Type in the input field to see your text instantly displayed below. 
+    -->
+    <h3>Generate a Random Color</h3>
+    <button>Generate Color</button>
+    <div>This is your new color</div>
+    <hr><br><hr><br>
+    <h1>My Text Editor</h1>
+    <p></p>
+    <input type="text" placeholder="Type Something" id="text">
+
+    <script>
+        // An Activity to Generate Random Color
+
+        let btn=document.querySelector("button");
+
+
+        btn.addEventListener("click", function(){
+            let h3=document.querySelector("h3");
+            let randomColor=getRandomColor();
+            h3.innerText = `rgb(${randomColor})`;
+            let div= document.querySelector("div");
+            div.style.backgroundColor = `rgb(${randomColor})`;
+
+            console.log("Color updated successfully!");
+        });
+        function getRandomColor(){
+            let red=Math.floor(Math.random() * 255);
+            let green=Math.floor(Math.random() * 255);
+            let blue=Math.floor(Math.random() * 255);
+            
+            let color=`${red}, ${green},${blue}`;
+            return color;
+        }
+
+        // This activity showcases a fundamental concept in web development: updating content in real-time 
+        // based on user input. Using JavaScript, the value entered in an input box is immediately displayed 
+        // in a paragraph tag. 
+        // It's a great example for beginners learning about event handling and DOM manipulation. Happy coding! 🚀
+        let inp=document.querySelector("#text");
+        let p=document.querySelector("p");
+        inp.addEventListener("input", function()
+        {
+            console.log(inp.value);
+            p.innerText=inp.value;
+        })
+    </script>
+</body>
+</html>

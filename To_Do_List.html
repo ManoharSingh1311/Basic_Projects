@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO-DO LIST</title>
+    <link rel="icon" href="favicon.ico">
+    <!--    
+        Author: Manohar Singh(https://github.com/mannu1311/Basic_Projects)
+            Description: This activity generates random colors and updates text in real-time.
+            Date: March 23, 2024
+     -->
+</head>
+<body>
+    <h1>TO DO APP</h1>
+    <input type="text" placeholder="Enter your task">
+    <button>Add Task!</button>
+    <ul>
+        <li>Eat <button class="dlt">Delete</button></li>
+        <li>Sleep <button class="dlt">Delete</button> </li>
+    </ul>
+    <script>
+        let input= document.querySelector("input");
+        let btn=document.querySelector("button");
+        let ul=document.querySelector("ul");
+        btn.addEventListener("click",function()
+        {
+            let items=document.createElement("li");
+            items.innerText=input.value;
+            let dltbutton=document.createElement("button");
+            dltbutton.innerText="Delete";
+            dltbutton.classList.add("dlt");
+            items.appendChild(dltbutton);
+            ul.appendChild(items);
+            console.log(input.value);
+            input.value=""; 
+        })
+        ul.addEventListener("click", function(event)
+        {
+            // console.dir(event.target.nodeName);
+            if(event.target.nodeName=="BUTTON")
+            {
+                let listItems=event.target.parentElement;
+                console.log(listItems);
+                listItems.remove();
+                console.log("Deleted");
+            }
+            
+
+            // console.log("Button Clicked!")
+        })
+        // let dltBtns=document.querySelectorAll(".dlt");
+        // for(dltBtn of dltBtns)
+        // {
+        //     dltBtn.addEventListener("click",function(){
+        //         let par=this.parentElement;
+        //         par.remove();
+        //         console.log("Element Deleted");
+        //     })
+        // }
+        //Event Delegation is used to remove the new elements we added to the to-do list.        
+    </script>
+</body>
+</html>
